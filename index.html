@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" manifest="resume.appcache">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,
+                                  minimum-scale=1.0,maximum-scale=1.0 user-scalable=yes"/>
+    <title>delen's resume</title>
+    <link rel="stylesheet" href="common.css" type="text/css"/>
+    <link rel="stylesheet" href="mobile.css" type="text/css" media="only screen and (max-device-width:480px)"/>
+    <link rel="stylesheet" href="main.css" type="text/css" media="only screen and (min-device-width:480px)" />
+    <script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="Rain.js"></script>
+    <script type="text/javascript" src="moveWater.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="music.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script>
+        window.addEventListener('load',function(e){
+            window.applicationCache.addEventListener('updateready',function(e){
+                console.log(window.applicationCache.status);
+                if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                    window.applicationCache.swapCache();
+                };
+                if(confirm('简历内容更新了，是否重新加载？')){
+                    window.location.reload();
+                }else{
+                    console.log('内容没有改变！')
+                }
+            },false)
+        },false)
+
+    </script>
+</head>
+<body onselectedstart="return fasle;">
+<header class="header-fixed">
+    <div>
+        <span class="music_svg">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 22 22" width="20px" height="20px"  style="enable-background:new 0 0 22 22;" xml:space="preserve">
+<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M22,11c0-6.075-4.925-11-11-11C4.925,0,0,4.925,0,11c0,6.075,4.925,11,11,11
+	C17.075,22,22,17.075,22,11z M8.5,15l-3-4l3-4h1l-2.75,3.5h9.75v0.998H6.75L9.5,15H8.5z"/>
+</svg>
+        </span>
+        <span class="music_svg">
+        <svg class="rotate" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve" width="25px" height="25px">
+         <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M22,11c0-6.075-4.925-11-11-11C4.925,0,0,4.925,0,11c0,6.075,4.925,11,11,11
+	         C17.075,22,22,17.075,22,11z M9.25,16.066c-1.45,0-2.174-0.421-2.174-1.263c0-0.353,0.227-0.655,0.682-0.904
+	         c0.455-0.249,0.999-0.374,1.633-0.374c0.572,0,1.125,0.231,1.66,0.694V5.475l0.475-0.023c0.119,0.322,0.251,0.545,0.393,0.67
+	         c0.143,0.125,0.414,0.249,0.814,0.374c1.366,0.41,2.05,0.974,2.05,1.691c0,0.468-0.322,1.016-0.966,1.644l-0.195-0.32
+	         c0.244-0.307,0.366-0.569,0.366-0.787c0-0.338-0.312-0.613-0.935-0.826c-0.634-0.208-1.138-0.436-1.512-0.686l0.008,6.897v0.397
+	         c0,0.223-0.01,0.377-0.031,0.46c-0.078,0.312-0.316,0.573-0.713,0.783C10.408,15.961,9.889,16.066,9.25,16.066z"/>
+       </svg>
+        </span>
+       <span class="music_svg">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	          width="20px" height="20px"   viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve">
+           <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M22,11c0-6.075-4.925-11-11-11C4.925,0,0,4.925,0,11c0,6.075,4.925,11,11,11
+	           C17.075,22,22,17.075,22,11z M5.5,10.502h9.75L12.5,7h1l3,4l-3,4h-1l2.75-3.5H5.5V10.502z"/>
+                </svg>
+        </span>
+    </div>
+    <h3>个人简历</h3>
+    <h6>Personal Resume</h6>
+</header>
+   <div class="middle-header" style="top:0;right:20px;">
+      <img src="header.jpg" width="100" />
+   </div>
+
+   <section class="load">
+      <div class="cube">
+        <div class="font middle-load center"></div>
+        <div class="back middle-load center"></div>
+        <div class="left middle-load center"></div>
+        <div class="right middle-load center"></div>
+        <div class="top middle-load center"></div>
+        <div class="bottom middle-load center"></div>
+      </div>
+      <div class="fullScreen up"></div>
+      <div class="fullScreen down">
+      </div>
+      <h1>Welcome to delen's world! </h1>
+      <input id="searchWork" type='button' value="求职中，求收留!"/>
+  </section>
+   <section id="introduce" class="page active">
+      <header>
+          <h1>简介</h1>
+          <h3>introduce</h3>
+      </header>
+      <article class="personal_intro">
+          <div>
+              <span>张代龙</span>
+              <i>
+                  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	                  width="16.163px" height="16.165px" viewBox="0 0 16.163 16.165" enable-background="new 0 0 16.163 16.165" xml:space="preserve">
+                      <path d="M16.142,0.025V0.023L16.141,0H9.85v1.467h3.811l-2.742,2.742c-0.584-0.471-1.253-0.855-2.001-1.117
+	                  C5.406,1.871,1.58,3.721,0.37,7.227c-1.213,3.506,0.65,7.338,4.16,8.561c3.511,1.223,7.337-0.627,8.547-4.133
+	                  c0.781-2.264,0.276-4.662-1.121-6.408l2.741-2.74v3.809h1.466V0.025H16.142z M11.087,10.963c-0.832,2.406-3.461,3.678-5.871,2.838
+	                  c-2.41-0.84-3.689-3.473-2.857-5.881c0.833-2.408,3.461-3.68,5.87-2.84C10.64,5.922,11.919,8.554,11.087,10.963z"/>
+                  </svg>
+
+              </i>
+             <p>2012年毕业于广州中山大学</p>
+              <p>计算机科学与技术专业</p>
+              <p>(本简历同时支持手机和电脑浏览！)</p>
+          </div>
+          <div>
+             <p style="word-wrap:break-word;">您是第<span><script language="javascript" type="text/javascript" src="http://quote.51.la/?id=19039148&amp;mb=2"></script></span>位访客</p>
+          </div>
+      </article>
+
+  </section>
+   <section id="message" class="page">
+       <header>
+           <h1>项目</h1>
+           <h3>project</h3>
+       </header>
+       <article>
+           <div class="pro_card  photo_front" onmouseenter="init().turn(this)" id="photo_{{index}}">
+               <div class="photo_wrap">
+               <div class="side pro_front">
+                   <canvas id="can_{{index}}"></canvas>
+                   <p>{{name}}</p>
+               </div>
+               <div class="side pro_back">
+                   <p>项目地址：</p>
+                   <a target="_blank" href="{{url}}">{{url}}</a>
+               </div>
+               </div>
+           </div>
+
+       </article>
+
+   </section>
+   <section id="skill" class="page">
+       <header>
+           <h1>技能</h1>
+           <h3>skill</h3>
+       </header>
+       <article>
+           <div>
+              <ul>
+                  <li>
+                      <ul class="skillDeg">
+                          <li>入门</li>
+                          <li>了解</li>
+                          <li>掌握</li>
+                          <li>熟悉</li>
+                          <li>精通</li>
+                      </ul>
+                  </li>
+                  <li><span>html:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>html5:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>css2:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>css3:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>bootstrap:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>javascript:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>jquery:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>angularjs 1:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>nodejs:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>c:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>c#:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>.net:</span><span class="scroll_bar"><i></i></span></li>
+                  <li><span>未完待续...</span></li>
+              </ul>
+           </div>
+       </article>
+   </section>
+   <section id="connection" class="page">
+       <header>
+           <h1>联系方式</h1>
+           <h3>connection</h3>
+       </header>
+       <article>
+           <div class="con_center">
+               <div>{{url}} <div class="con_content">{{content}}</div></div>
+           </div>
+       </article>
+
+   </section>
+   <section id="learning" class="page">
+       <header>
+           <h1>学习</h1>
+           <h3>learning</h3>
+       </header>
+       <article>
+           <div class="learn_book">
+             <ul>
+                 <li></li>
+                 <li>算法导论(第三版)</li>
+                 <li>node/express/koa</li>
+                 <li>angularjs2.0</li>
+                 <li>phoneGap/ionic</li>
+                 <li>reactjs/vuejs</li>
+                 <li></li>
+                 <li></li>
+             </ul>
+           </div>
+       </article>
+   </section>
+   <div class="memu_left">
+       <ul>
+           <li class="activeli" onclick="pageShow(this)"><a href="#introduce">intro<p>d</p>uce</a><span>d</span></li>
+           <li onclick="pageShow(this)"><a href="#message">proj<p>e</p>ct</a><span>e</span></li>
+           <li onclick="pageShow(this)"><a href="#skill">ski<p>l</p>l</a><span>l</span></li>
+           <li onclick="pageShow(this)"><a href="#connection">conn<p>e</p>ction</a><span>e</span></li>
+           <li onclick="pageShow(this)"><a href="#learning">lear<p>n</p>ing</a><span>n</span></li>
+       </ul>
+   </div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "myresume",
+  "version": "1.0.0",
+  "description": "There are far,far better things ahead than any we leave behind!This profile is used to describe my experiences,convenient decree by destiny of man to consult!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "delen",
+  "license": "ISC"
+}

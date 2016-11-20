@@ -1,0 +1,31 @@
+CACHE MANIFEST
+#version 1.0.1
+CACHE:
+  2048.jpg
+  bg.jpg
+  fiveInRow.jpg
+  header.jpg
+  pay.jpg
+  streamer.jpg
+  weChatCode.png
+  writeWord.png
+  zhongqiujie.jpg
+  chuanyuesikong.mp3
+  NeedYouNow.mp3
+  zlx.mp3
+  heniyiyang.mp3
+  xinyuan.mp3
+  xinyueshenhua.mp3
+  yanyuan.mp3
+  common.css
+  mobile.css
+  main.css
+  jquery-2.1.1.min.js
+  Rain.js
+  moveWater.js
+  data.js
+  music.js
+  main.js
+  logo_small.gif
+NETWORK:
+*
