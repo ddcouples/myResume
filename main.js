@@ -3,8 +3,8 @@
  */
 var config= {};
 var move;
-init().reload();
 config.isStart=false;
+
 function init(){
     var $article=$('#message').find('article');
     function random(range){
@@ -16,11 +16,14 @@ function init(){
     }
     return{
         reload:function(){
+            var _w=$(document).width()<$('body').width()?$(document).width():$('body').width();
+            var _h=$(document).height()<$('body').height()?$(document).height():$('body').height();
             config={
-                width: $(window).width(),
-                height: $(window).height(),
+                width:_w,
+                height: _h,
                 rain:new Rain()
             }
+            config.index=0;
         },
         preload:function(){
             var $load=$('.load');
@@ -117,16 +120,17 @@ function init(){
             };
         },
         progressLoad:function(){
-            var proCard=$article.html();
-
-            var proCards=[];
-            for(i in projects){
-                var proCardN=proCard.replace(/\{\{index\}\}/g,i)
-                    .replace('{{name}}',projects[i].name).replace(/\{\{url\}\}/g,projects[i].url);
-                proCards.push(proCardN);
-            }
-            $article.html(proCards.join(' '));
-            var $nav=$('<div class="nav_list">\
+            var $ul=$('<ul class="photo_ul"><li><canvas id="can_{{index}}"></canvas></li></ul>')
+            if(config.width>config.height) {
+                var proCard = $article.html();
+                var proCards = [];
+                for (i in projects) {
+                    var proCardN = proCard.replace(/\{\{index\}\}/g, i)
+                        .replace('{{name}}', projects[i].name).replace(/\{\{url\}\}/g, projects[i].url);
+                    proCards.push(proCardN);
+                }
+                $article.html(proCards.join(' '));
+                var $nav = $('<div class="nav_list">\
                 <span id="nav_list_{{index}}"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\
                  width="35.622px" height="34.346px" viewBox="0 0 17.811 17.173" enable-background="new 0 0 17.811 17.173" xml:space="preserve">\
                 <path d="M17.466,9.793L10.022,7.65C9.704,7.559,9.546,7.736,9.67,8.042l0.85,2.099c0.125,0.306-0.025,0.659-0.333,0.782\
@@ -139,8 +143,96 @@ function init(){
                   </svg>\
                  </span>\
             </div>');
-            $article.append($nav);
-            addNav();//对应每个图片添加nav
+                $article.append($nav);
+                addNav();//对应每个图片添加nav
+                drawCan(150,200,150,200);
+            }
+            else{
+                $('.pro_card').remove();
+                var _$art=$('#message').find('article');
+                _$art.append($ul);
+                mobileAddPhoto();
+                var $showPhoto=$('<figure style="display: none;" class="screen_full"><canvas id="fullPhoto"></canvas><figcaption><a href="{{url}}">{{name}}</a></figcaption></figure>');
+                for(i in projects) {
+                    $('#can_'+i).tap(function (e) {
+                        e.stopPropagation();
+                        var _id = $(this).attr('id').replace('can_', '');
+                        drawFullPhoto($ul, $showPhoto, _id);
+                        var $screen_full= $('.screen_full')
+                        //为canvas添加动画
+                        $('#fullPhoto').addClass('animated zoomIn').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(e){
+                            $(this).removeClass('animated zoomIn');
+                            $('#fullPhoto').unbind(e);
+                        }).tap(function(e){
+                            e.stopPropagation();////为canvas添加动画
+                            $(this).parent('.screen_full').addClass('animated zoomOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                                   $(this).removeClass('animated zoomOut').remove();
+                                   return false;
+                                   $(this).unbind(e);
+                                });
+                            $('#fullPhoto').unbind(e);
+                        },false).bind('swipeleft',function(){
+                           // alert('swipeleft');
+                            config.index++;
+                            config.index%=projects.length;
+                            drawFullPhoto($ul, $showPhoto,config.index);
+                            $screen_full.addClass('animated bounceInRight').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                                $(this).removeClass('animated bounceInRight');
+                                return false;
+                                $(this).unbind(e);
+                            });
+                        }).bind('swiperight',function(){
+                            //alert('swiperight');
+                            config.index--;
+                            if( config.index<0) config.index=projects.length-1;
+                            drawFullPhoto($ul, $showPhoto,config.index);
+                            $screen_full.addClass('animated bounceInLeft').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                                $(this).removeClass('animated bounceInLeft');
+                                return false;
+                                $(this).unbind(e);
+                            });
+                        })
+                        ;
+                        return false;
+                    }, false);
+                }
+            }
+            function drawFullPhoto($ul,$showPhoto,_id){
+                    var _project=projects[parseInt(_id)];
+                    $('body').append($showPhoto);
+                    $showPhoto.find('a').attr('href',_project.url).text(_project.name);
+                    $showPhoto.css({
+                        display:'block',
+                        width:config.width,
+                        height:config.height,
+                        'z-index':998
+                    })
+                    var img=new Image();
+                    img.onload=function(){
+                        var can=document.getElementById('fullPhoto');
+                        can.width=config.width;
+                        can.height=config.height;
+                        var _w=0.8*config.width;
+                        var _h=_w/this.width*this.height;
+                        var content=can.getContext('2d');
+                        content.drawImage(this,config.width*0.1,(config.height-_h)/2,_w,_h);
+
+                    }
+                    img.src=_project.img;
+            }
+            function mobileAddPhoto (){
+                var liHtml=$ul.html();
+                var _li=[];
+                for(i in projects){
+                    var _liHtml=liHtml.replace('{{index}}',i);
+                    _li.push(_liHtml);
+                }
+                $ul.html(_li.join(' '));
+                var _w=$ul.find('li').width();
+                //console.log(_w);
+                var _h= _w*200/150;
+                drawCan(_w*0.8,_h*0.8,_w,_h);
+            }
             function addNav() {
                 var $nav_list = $article.find('.nav_list');
                 var nav_list_html = $nav_list.html();
@@ -151,19 +243,16 @@ function init(){
                 }
                 $nav_list.html(nav_lists.join(' '));
             }
-
-            drawCan()
-            function drawCan(){
+            function drawCan(width,height,contW,contH){
                 for(var i=0;i<projects.length;i++){
                     var img=new Image();
                     img.index=i;
                     img.onload=function(){
                         var can=document.getElementById('can_'+this.index);
-                        can.width=150;
-                        can.height=200;
+                        can.width=contW;
+                        can.height=contH;
                         var content=can.getContext('2d');
-
-                        content.drawImage(this,0,0,150,200);
+                        content.drawImage(this,(contW-width)/2,(contH-height)/2,width,height);
                     }
                     img.src=projects[img.index].img;
                 }
@@ -174,49 +263,51 @@ function init(){
             render(n);
             function render(n){
                 var $photos=$article.find('.pro_card');
-                var project_n=$photos.splice(n,1);
-                $('#photo_'+n)[0].style=' ';
-                $('.pro_center').each(function(index,item){
+                if($photos) {
+                    var project_n = $photos.splice(n, 1);
+                    $('#photo_' + n)[0].style = ' ';
+                    $('.pro_center').each(function (index, item) {
 
-                    $(item).removeClass('pro_center');
-                });
-                $('#photo_'+n).addClass('pro_center');
+                        $(item).removeClass('pro_center');
+                    });
+                    $('#photo_' + n).addClass('pro_center');
 
-                var len=Math.floor($photos.length/2);
-                var width=$article.width();
-                var height=$article.height();
-                for(var i=0;i<len;i++) {
-                    var left = random([75, width / 2 - 75]);
-                    var top = random([200, height-200]);
-                    var rotate=random([30,330]);
-                    var zindex=random([10,90]);
-                    $($photos[i]).css({
-                        top:top,
-                        left:left,
-                        transform:'rotateZ('+rotate+'deg)',
-                        '-webkit-transform':'rotateZ('+rotate+'deg)',
-                        '-moz-transform':'rotateZ('+rotate+'deg)',
-                        'z-index':zindex
+                    var len = Math.floor($photos.length / 2);
+                    var width = $article.width();
+                    var height = $article.height();
+                    for (var i = 0; i < len; i++) {
+                        var left = random([75, width / 2 - 75]);
+                        var top = random([200, height - 200]);
+                        var rotate = random([30, 330]);
+                        var zindex = random([10, 90]);
+                        $($photos[i]).css({
+                            top: top,
+                            left: left,
+                            transform: 'rotateZ(' + rotate + 'deg)',
+                            '-webkit-transform': 'rotateZ(' + rotate + 'deg)',
+                            '-moz-transform': 'rotateZ(' + rotate + 'deg)',
+                            'z-index': zindex
+                        })
+                    }
+                    for (var i = len; i < $photos.length; i++) {
+                        var left = random([width / 2 + 150, width - 150]);
+                        var top = random([200, height - 200]);
+                        var rotate = random([30, 330]);
+                        var zindex = random([10, 90]);
+                        $($photos[i]).css({
+                            top: top,
+                            left: left,
+                            transform: 'rotateZ(' + rotate + 'deg)',
+                            '-webkit-transform': 'rotateZ(' + rotate + 'deg)',
+                            '-moz-transform': 'rotateZ(' + rotate + 'deg)',
+                            'z-index': zindex
+                        })
+                    }
+                    $('#nav_list_' + n).siblings().each(function (index, item) {
+                        $(item).removeClass('nav_current nav_current_back nav_back');
                     })
+                    $('#nav_list_' + n).addClass('nav_current');
                 }
-                for(var i=len;i<$photos.length;i++) {
-                    var left = random([width / 2 +150, width-150]);
-                    var top = random([200, height-200]);
-                    var rotate=random([30,330]);
-                    var zindex=random([10,90]);
-                    $($photos[i]).css({
-                        top:top,
-                        left:left,
-                        transform:'rotateZ('+rotate+'deg)',
-                        '-webkit-transform':'rotateZ('+rotate+'deg)',
-                        '-moz-transform':'rotateZ('+rotate+'deg)',
-                        'z-index':zindex
-                    })
-                }
-                $('#nav_list_'+n).siblings().each(function(index,item){
-                    $(item).removeClass('nav_current nav_current_back nav_back');
-                })
-                $('#nav_list_'+n).addClass('nav_current');
             }
         }
 
@@ -224,7 +315,11 @@ function init(){
 }
 
 $(function(){
-
+    init().reload();
+    $('.page').css({
+        width:config.width,
+        height:config.height
+    })
     if(!config.isStart) {
         setTimeout(function () {
             init().preload();
@@ -240,7 +335,9 @@ $(function(){
 });
 //显示页面
 function pageShow(ele){
-    //move.stop();
+    if(move) {
+        move.stop();
+    }
     var $page=$('.page');
     $page.each(function(index,item){
         $(item).removeClass('active');
@@ -257,11 +354,17 @@ function pageShow(ele){
        $(id).find('article').css('display','none').slideDown(3000);
     }
     if(id=='#message'){
-           var n=Math.floor(Math.random()*projects.length);
-           setTimeout(function(){
-               init().renderPro(n);
-           },1000);
 
+         if(config.width>config.height) {
+             var n = Math.floor(Math.random() * projects.length);
+             setTimeout(function () {
+                 init().renderPro(n);
+             }, 600);
+         }else{
+             $('.photo_ul').find('li').removeClass().addClass('animated rubberBand').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                 $(this).removeClass();
+             });
+         }
     }
     $(id).addClass('active');
 }
@@ -274,17 +377,17 @@ function eleEvents(){
     $searchWork.click(function(){
         showCurrent();
         config.isStart=true;
-    });
+    },false);
     $searchWork.on('tap',function(){
         showCurrent();
         config.isStart=true;
-    });
+    },false);
     var $span=$('.nav_list').find('span');
     $span.each(function(index,item){
         $(item).on('click',function(){
             var id=item.id.replace('nav_list_','');
             init().renderPro(id);
-        })
+        },false)
     })
     //简易音乐播放器
     var music=new Music();
@@ -293,7 +396,7 @@ function eleEvents(){
     $($svgs[0]).click(function(){
        music.sub();
         $($svgs[1]).attr('class','rotate');
-    })
+    },false);
     $($svgs[1]).click(function(){
         if(music.audio.paused){
             music.playFromP();
@@ -302,9 +405,18 @@ function eleEvents(){
             music.pause();
             $(this).attr('class','');
         }
-    })
+    },false);
     $($svgs[2]).click(function(){
         music.sum();
         $($svgs[1]).attr('class','rotate');
+    },false);
+    var $con=$('.con');
+    $con.each(function(index,item){
+        item.addEventListener('touchstart',function(e){
+            e.preventDefault();
+            console.log(this);
+            $(this).siblings('.con_content').css('display','none');
+            $(this).next('div').css('display','block');
+        },false);
     })
 }

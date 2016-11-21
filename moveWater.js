@@ -33,12 +33,20 @@ MoveWater.prototype.move=function(){
             that.ele.style.left=left+that.vx+'px';
 
         },30);
-    //}
-}
+};
 MoveWater.prototype.stop=function(){
-    clearInterval(this.timer);
-    $(this.ele).animate({
-        top:0,
-        right:'40px'
-    },1000);
-}
+    var that=this;
+    if(this.timer)
+        clearInterval(this.timer);
+    if(this.ele) {
+        //$(this.ele).animate({
+        //    opacity: 0
+        //}, 1000, function () {
+        $(that.ele).animate({
+            top:0,
+            right:'20px'
+        },3000);
+        //    that=null;
+        //});
+    }
+};

@@ -1,7 +1,7 @@
 
 body{
     background:url(bg.jpg);
-    overflow: hidden;
+    overflow-x: hidden;
     font-size:1rem;
 }
 .middle-load{
@@ -47,62 +47,70 @@ body{
 }
 .up {
     transform: rotateZ(30deg) translateX(-83%);
+    -webkit-transform: rotateZ(30deg) translateX(-83%);
 }
 
 .down {
     transform: rotateZ(30deg) translateX(83%);
+    -webkit-transform: rotateZ(30deg) translateX(83%);
+}
+.memu_left{
+    position:fixed;
+    bottom:0;
+    left:0px;
+    right:0px;
+    z-index: 10;
+}
+.memu_left ul{
+    list-style: none;
+    text-align: center;
+
+}
+
+.memu_left ul li:first-child{
+    background-color: darkblue;
+}
+.memu_left ul li:nth-child(2){
+    background-color: yellow;
+}
+.memu_left ul li:nth-child(3){
+    background-color:lawngreen;
+}
+.memu_left ul li:nth-child(4){
+    background-color:blueviolet;
+}
+.memu_left ul li:nth-child(5){
+    background-color:brown;
 }
 .memu_left ul li{
-    width:85px;
-    height:28px;
-    line-height:28px;
+    display: inline-block;
+    width: 20%;
+    height: 45px;
+    border-radius: 10px;
+    float: left;
+    /* line-height: 28px; */
     font-weight: bold;
-    font-size: 0.8rem;
-    transition:all 0.3s ease-out;
-    transform:translateX(-60px);
-}
-.memu_left ul li span{
-    position: fixed;
-    right:10px;
-    text-shadow: 0 1px 1px #333;
-    transition:all 0.8s ease-in-out;
-    z-index:-1;
-}
-.memu_left ul li:hover {
-    transform:translateX(0) !important;
-    opacity:1;
-}
-.memu_left ul li:hover >span{
-    transform:translateX(-40px);
-    opacity: 0;
-}
-.memu_left ul li:hover >a{
-    opacity: 1;
-    margin-right: 0;
-    width:85px;
+    box-shadow: 0px -3px 3px #333;
+    border: 1px solid #fff;
+    /* border-bottom: 3px solid #ddd; */
+    box-sizing: border-box;
+    /* font-size: 0.1rem; */
+    opacity:.6;
 }
 .memu_left ul li a{
-    display:inline-block;
-    color:#999;
-    text-decoration:none;
-    margin-right:10px;
-    opacity: 0;
+    text-decoration: none;
 }
 .memu_left ul li a p{
-    display: inline;
-    color:#0094ff;
-    font-weight:bolder;
-    text-shadow: 1px 1px 1px #fff;
+    text-shadow: 1px 1px 1px #333;
+    color: #999;
 }
-.activeli{
-    transform:translateX(-50px) !important;
-    -webkit-transform:translateX(-50px) !important;
+.memu_left ul li.activeli{
+    opacity:1;
+    color:#999 !important;
 }
+
 .page article{
-    width:90%;
-    margin:10px auto;
-    transform: translateX(5%);
-    padding-bottom: 10px;
+    width:100%;
 }
 #skill article ul li{
     margin:3px 0;
@@ -112,7 +120,6 @@ body{
     text-align: left;
     padding-left:10px;
     padding-top:2px;
-
     text-shadow: 1px 3px 1px #333;
 }
 #skill article ul.skillDeg{
@@ -146,9 +153,17 @@ body{
 }
 
 #connection article {
-    min-height: 240px;
+    min-height: 340px;
     overflow: auto;
+    position:relative;
 }
+.con_center div.con_content{
+    font-size:0.4rem;
+}
+.con_center div.con_content a{
+    font-size:0.4rem;
+}
+
 .learn_book ul li {
     padding: 5px;
     box-sizing:border-box;
@@ -157,6 +172,7 @@ body{
     height:35px;
     width:80%;
     transform:translate3d(40px,10px,0);
+    -webkit-transform:translate3d(40px,10px,0);
 }
 .learn_book ul li:before{
     display:block;
@@ -165,6 +181,7 @@ body{
     height:10px;
     background-color: #a42a2a;
     transform:translate3d(-10px,15px,0);
+    -webkit-transform:translate3d(-10px,15px,0);
 }
 
 .learn_book ul li:first-child{
@@ -178,6 +195,7 @@ body{
     background-color: #a42a2a;
     border-radius:100%;
     transform:translate3d(-25px,-10px,0);
+    -webkit-transform:translate3d(-25px,-10px,0);
 }
 .learn_book ul li:last-child{
     border-left:10px solid #a42a2a;
@@ -190,15 +208,48 @@ body{
     background-color: #a42a2a;
     border-radius:100%;
     transform:translate3d(-25px,10px,0);
+    -webkit-transform:translate3d(-25px,10px,0);
 }
 
 #message article{
-    width:80%;
+    width:100%;
     height:70%;
     background-color: #000;
     opacity: 0.8;
     position:relative;
     overflow:hidden;
     -webkit-perspective: 800px;
-    margin-top:-30px;
+    z-index:10;
+}
+.photo_ul{
+    list-style: none;
+    width:100%;
+    overflow:auto;
+}
+.photo_ul li{
+    width:32%;
+    display: inline-block;
+}
+.screen_full{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 0;
+    background-color: #000;
+    z-index:1;
+}
+.screen_full figcaption{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    height: 100px;
+    line-height: 100px;
+    background-color: #333;
+    opacity: .8;
+}
+.screen_full figcaption a{
+    text-decoration: none;
 }

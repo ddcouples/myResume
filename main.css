@@ -67,6 +67,36 @@ body{
         width:600px;
         position:relative;
 }
+
+
+
+
+.memu_left{
+    position:fixed;
+    top:40%;
+    left:0px;
+    z-index: 10;
+}
+.memu_left ul{
+    list-style: none;
+    text-align: center;
+}
+
+.memu_left ul li:first-child{
+    background-color: darkblue;
+}
+.memu_left ul li:nth-child(2){
+    background-color: yellow;
+}
+.memu_left ul li:nth-child(3){
+    background-color:lawngreen;
+}
+.memu_left ul li:nth-child(4){
+    background-color:blueviolet;
+}
+.memu_left ul li:nth-child(5){
+    background-color:brown;
+}
 .memu_left ul li{
     width:160px;
     height:36px;

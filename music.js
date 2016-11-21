@@ -37,6 +37,14 @@ Music.prototype.pause=function(){
 Music.prototype.playFromP=function(){
     this.audio.play();
 }
+Music.prototype.autoloadNext=function(){
+    var index=this.current+1;
+    if(index>music_data.length-1){
+        index=0;
+    }
+    this.audio.src=music_data[index].src;
+    this.audio.load();
+}
 Music.prototype.sum=function(){
     this.current++;
     if(this.current>music_data.length-1){
