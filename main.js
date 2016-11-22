@@ -27,7 +27,7 @@ function init(){
         },
         preload:function(){
             var $load=$('.load');
-
+            var $h1= $load.find('h1');
             function up(){
                 var defer= $.Deferred();
                 setTimeout(function(){
@@ -53,16 +53,15 @@ function init(){
                 return defer.promise();
             }
             $.when(up(),down()).then(function(){
-                var $h1= $load.find('h1');
+
                 var defer= $.Deferred();
-                $h1.addClass('lightSpeedIn');
-                setTimeout(function(){
-                    $h1.addClass('shake');
+                $h1.removeClass().addClass('lightSpeedIn').one('webkitAnimationEnd',function(){
+                    $h1.removeClass('lightSpeedIn').addClass('shake_own');
                     setTimeout(function(){
-                        $h1.removeClass();
-                        defer.resolve('ok');
-                    },1500)
-                },1500)
+                                $h1.removeClass();
+                                defer.resolve('ok');
+                            },1500)
+                });
                 return defer.promise();
             }).then(function(){
               $load.addClass('leaveScreen');
@@ -131,7 +130,7 @@ function init(){
                 }
                 $article.html(proCards.join(' '));
                 var $nav = $('<div class="nav_list">\
-                <span id="nav_list_{{index}}"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\
+                <span id="nav_list_{{index}}" onclick="init().clickRender(this)"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\
                  width="35.622px" height="34.346px" viewBox="0 0 17.811 17.173" enable-background="new 0 0 17.811 17.173" xml:space="preserve">\
                 <path d="M17.466,9.793L10.022,7.65C9.704,7.559,9.546,7.736,9.67,8.042l0.85,2.099c0.125,0.306-0.025,0.659-0.333,0.782\
                  c0,0-1.962,0.783-3.447,0.783c-1.124,0-2.555-0.422-2.555-0.422c-0.317-0.094-0.384,0.02-0.146,0.251c0,0,1.855,3.394,6.137,3.124\
@@ -309,14 +308,17 @@ function init(){
                     $('#nav_list_' + n).addClass('nav_current');
                 }
             }
+        },
+        clickRender:function(ele){
+            var _id = ele.id.replace('nav_list_', '');
+            init().renderPro(_id);
         }
-
     }
 }
 
 $(function(){
     init().reload();
-    $('.page').css({
+    $('.load').css({
         width:config.width,
         height:config.height
     })
@@ -382,13 +384,6 @@ function eleEvents(){
         showCurrent();
         config.isStart=true;
     },false);
-    var $span=$('.nav_list').find('span');
-    $span.each(function(index,item){
-        $(item).on('click',function(){
-            var id=item.id.replace('nav_list_','');
-            init().renderPro(id);
-        },false)
-    })
     //简易音乐播放器
     var music=new Music();
     music.play();
