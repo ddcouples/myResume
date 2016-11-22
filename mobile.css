@@ -1,4 +1,6 @@
-
+html,body{
+    overflow-y:auto;
+}
 body{
     background:url(bg.jpg);
     overflow-x: hidden;
