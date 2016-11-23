@@ -154,7 +154,6 @@ function init(){
                 var $showPhoto=$('<figure style="display: none;" class="screen_full"><canvas id="fullPhoto"></canvas><figcaption><a href="{{url}}">{{name}}</a></figcaption></figure>');
                 for(i in projects) {
                     $('#can_'+i).tap(function (e) {
-                        e.stopPropagation();
                         var _id = $(this).attr('id').replace('can_', '');
                         drawFullPhoto($ul, $showPhoto, _id);
                         var $screen_full= $('.screen_full')
@@ -166,7 +165,7 @@ function init(){
                             e.stopPropagation();////为canvas添加动画
                             $(this).parent('.screen_full').addClass('animated zoomOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
                                    $(this).removeClass('animated zoomOut').remove();
-                                   return false;
+
                                    $(this).unbind(e);
                                 });
                             $('#fullPhoto').unbind(e);
@@ -177,7 +176,7 @@ function init(){
                             drawFullPhoto($ul, $showPhoto,config.index);
                             $screen_full.addClass('animated bounceInRight').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
                                 $(this).removeClass('animated bounceInRight');
-                                return false;
+
                                 $(this).unbind(e);
                             });
                         }).bind('swiperight',function(){
@@ -317,9 +316,10 @@ function init(){
 }
 
 $(function(){
-    document.body.addEventListener('touchmove', function (event) {  
-    event.preventDefault();  
-}, false);  
+    document.body.addEventListener('touchmove', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }, false);
     init().reload();
     $('.load').css({
         width:config.width,
