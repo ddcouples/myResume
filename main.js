@@ -317,6 +317,9 @@ function init(){
 }
 
 $(function(){
+    document.body.addEventListener('touchmove', function (event) {  
+    event.preventDefault();  
+}, false);  
     init().reload();
     $('.load').css({
         width:config.width,
