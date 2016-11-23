@@ -151,9 +151,10 @@ function init(){
                 var _$art=$('#message').find('article');
                 _$art.append($ul);
                 mobileAddPhoto();
-                var $showPhoto=$('<figure style="display: none;" class="screen_full"><canvas id="fullPhoto"></canvas><figcaption><a href="{{url}}">{{name}}</a></figcaption></figure>');
+                var $showPhoto=$('<figure style="display: none;" class="screen_full"><canvas id="fullPhoto"></canvas><figcaption><a href="{{url}}" style="color:#fff;">{{name}}</a></figcaption></figure>');
                 for(i in projects) {
-                    $('#can_'+i).tap(function (e) {
+                    $('#can_'+i).tap(function(e){
+                        e.stopPropagation();
                         var _id = $(this).attr('id').replace('can_', '');
                         drawFullPhoto($ul, $showPhoto, _id);
                         var $screen_full= $('.screen_full')
@@ -165,18 +166,18 @@ function init(){
                             e.stopPropagation();////为canvas添加动画
                             $(this).parent('.screen_full').addClass('animated zoomOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
                                    $(this).removeClass('animated zoomOut').remove();
-
+                                   e.stopPropagation();
                                    $(this).unbind(e);
                                 });
                             $('#fullPhoto').unbind(e);
-                        },false).bind('swipeleft',function(){
+                        }).bind('swipeleft',function(){
                            // alert('swipeleft');
                             config.index++;
                             config.index%=projects.length;
                             drawFullPhoto($ul, $showPhoto,config.index);
                             $screen_full.addClass('animated bounceInRight').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
                                 $(this).removeClass('animated bounceInRight');
-
+                                e.stopPropagation();
                                 $(this).unbind(e);
                             });
                         }).bind('swiperight',function(){
@@ -186,13 +187,12 @@ function init(){
                             drawFullPhoto($ul, $showPhoto,config.index);
                             $screen_full.addClass('animated bounceInLeft').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
                                 $(this).removeClass('animated bounceInLeft');
-                                return false;
+                                e.stopPropagation();
                                 $(this).unbind(e);
                             });
-                        })
-                        ;
+                        });
                         return false;
-                    }, false);
+                    });
                 }
             }
             function drawFullPhoto($ul,$showPhoto,_id){
@@ -318,7 +318,6 @@ function init(){
 $(function(){
     document.body.addEventListener('touchmove', function (event) {
         event.preventDefault();
-        event.stopPropagation();
     }, false);
     init().reload();
     $('.load').css({
@@ -382,11 +381,11 @@ function eleEvents(){
     $searchWork.click(function(){
         showCurrent();
         config.isStart=true;
-    },false);
+    });
     $searchWork.on('tap',function(){
         showCurrent();
         config.isStart=true;
-    },false);
+    });
     //简易音乐播放器
     var music=new Music();
     music.play();
@@ -394,7 +393,7 @@ function eleEvents(){
     $($svgs[0]).click(function(){
        music.sub();
         $($svgs[1]).attr('class','rotate');
-    },false);
+    });
     $($svgs[1]).click(function(){
         if(music.audio.paused){
             music.playFromP();
@@ -403,11 +402,11 @@ function eleEvents(){
             music.pause();
             $(this).attr('class','');
         }
-    },false);
+    });
     $($svgs[2]).click(function(){
         music.sum();
         $($svgs[1]).attr('class','rotate');
-    },false);
+    });
     var $con=$('.con');
     $con.each(function(index,item){
         item.addEventListener('touchstart',function(e){
