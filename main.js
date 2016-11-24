@@ -190,6 +190,10 @@ function init(){
                                 e.stopPropagation();
                                 $(this).unbind(e);
                             });
+                        }).bind('scrollstart',function(e){
+                            console.log('gundongle')
+                            e.preventDefault();
+                            return false;
                         });
                         return false;
                     });
