@@ -14,8 +14,7 @@ MoveWater.prototype.move=function(){
     //    clearInterval(this.timer)
     //}else{
        that.timer = setInterval(function(){
-            var top=that.ele.style.top;
-
+           var top=that.ele.style.top;
            var left=that.ele.style.left;
            if(top==''||left==''){top='00px';left='00px';}
 
@@ -25,13 +24,12 @@ MoveWater.prototype.move=function(){
            if(top>config.height-100){
                that.vy=-that.vy;
            }
-           else if(left>config.width-100||left<0){
+           else if(left>config.width-105||left<0){
                that.vx=-that.vx;
            }
            that.vy+=that.g*0.005;
             that.ele.style.top=top+that.vy+'px';
             that.ele.style.left=left+that.vx+'px';
-
         },30);
 };
 MoveWater.prototype.stop=function(){
@@ -45,7 +43,13 @@ MoveWater.prototype.stop=function(){
         $(that.ele).animate({
             top:0,
             right:'20px'
-        },3000);
+        },3000,function(){
+            $(this).animate({
+                opacity:0
+            },2000,function(){
+                $(this).remove();
+            });
+        });
         //    that=null;
         //});
     }
