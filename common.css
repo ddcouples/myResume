@@ -74,7 +74,6 @@ html,body{
 {
     -webkit-animation: 4s Up linear infinite;
     -moz-animation: 4s Up linear infinite;
-
     position: absolute;
     width: 100%;
     height: 100%;
@@ -211,7 +210,6 @@ html,body{
 }
 .middle-header{
     width:100px;
-    margin:20px auto;
     position:absolute;
     z-index:998;
 }
@@ -233,8 +231,6 @@ html,body{
     -webkit-transform: translateY(-50%) rotateY(-70deg);
     top:0;
     left:0;
-    width: 100%;
-    height: 100%;
     text-align: center;
     padding-top: 60px;
     opacity: 0;
