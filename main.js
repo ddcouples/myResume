@@ -157,7 +157,7 @@ function init(){
                         e.stopPropagation();
                         var _id = $(this).attr('id').replace('can_', '');
                         drawFullPhoto($ul, $showPhoto, _id);
-                        var $screen_full= $('.screen_full')
+                        var $screen_full= $('.screen_full');
                         //为canvas添加动画
                         $('#fullPhoto').addClass('animated zoomIn').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(e){
                             $(this).removeClass('animated zoomIn');
@@ -316,14 +316,14 @@ function init(){
 }
 
 $(function(){
-    document.body.addEventListener('touchmove', function (event) {
+    $('.load')[0].addEventListener('touchmove', function (event) {
         event.preventDefault();
     }, false);
     init().reload();
     $('.load').css({
         width:config.width,
         height:config.height
-    })
+    });
     if(!config.isStart) {
         setTimeout(function () {
             init().preload();
