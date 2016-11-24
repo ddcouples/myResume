@@ -38,7 +38,7 @@ Rain.prototype.drain=function(){
                     var that = this;
                     function drop() {
                         $(that).css({
-                            left:Math.random()*config.width,
+                            left:Math.random()*config.width-10,
                             top: 0
                         });
                         var timeS=Math.random()*3000+1000;
